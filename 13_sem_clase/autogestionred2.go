@@ -74,7 +74,7 @@ func tellEverybody(remoteIP string) {
 	}
 }
 
-go notify(addr, remoteIP string) {
+func notify(addr, remoteIP string) {
 	remote := fmt.Sprintf("%s:%d", addr, notifyport)
 	conn, _ := net.Dial("tcp", remote)
 	defer conn.Close()
