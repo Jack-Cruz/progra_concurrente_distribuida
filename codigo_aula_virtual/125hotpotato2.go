@@ -92,7 +92,8 @@ func main() {
 func myIp() string { // mandrakeando ando
 	ifaces, _ := net.Interfaces()
 	for _, iface := range ifaces {
-		if strings.HasPrefix(iface.Name, "Local") {
+		//if strings.HasPrefix(iface.Name, "eth0") {
+		if strings.HasPrefix(iface.Name, "Ethernet") {
 			addrs, _ := iface.Addrs()
 			for _, addr := range addrs {
 				switch v := addr.(type) {

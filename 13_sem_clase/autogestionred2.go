@@ -24,7 +24,7 @@ func getMyIP() string {
 	ifaces, _ := net.Interfaces()
 
 	for _, iface := range ifaces {
-		if strings.HasPrefix(iface.Name, "Wi-Fi") {
+		if strings.HasPrefix(iface.Name, "Ethernet") {
 			addrs, _ := iface.Addrs()
 			for _, addr := range addrs {
 				switch t := addr.(type) {
