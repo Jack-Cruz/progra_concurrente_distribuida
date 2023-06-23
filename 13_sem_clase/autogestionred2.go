@@ -53,6 +53,7 @@ func registerServer() {
 func handleRegister(conn net.Conn) {
 	defer conn.Close()
 	br := bufio.NewReader(conn)
+	fmt.Println("Recibi un nuevo registro")
 	remoteIP, _ := br.ReadString('\n')
 	remoteIP = strings.TrimSpace(remoteIP)
 	fmt.Printf("Nuevo host en la red: %s\n", remoteIP)
@@ -60,7 +61,7 @@ func handleRegister(conn net.Conn) {
 	// Enviar mi bitacora de addrs al nuevo host
 	addrbytes, _ := json.Marshal(addrs)
 	fmt.Fprintf(conn, "%s\n", string(addrbytes))
-
+	
 	// Notificar a todos que llego un nuevo host
 	tellEverybody(remoteIP)
 
@@ -102,15 +103,18 @@ func handleNotify(conn net.Conn) {
 
 // Solicitar registro
 func requestRegister(remoteIP string) {
-	remoteDir := fmt.Sprintf("%s:8000", remoteIP) 	//ip:puerto
+	remoteDir := fmt.Sprintf("%s:%d", remoteIP, registerport) 	//ip:puerto
+	fmt.Println("Solicito conexion a", remoteDir)
 	conn, _ := net.Dial("tcp", remoteDir)
 	defer conn.Close()
 	// Enviar al host remoto mi dirección
-	fmt.Fprintf(conn, hostaddr)
+	fmt.Fprintf(conn, "%s\n", hostaddr)
+	fmt.Println("Envie mi host")
 
 	// El host remoto me envia su bitacora de direcciones
 	br := bufio.NewReader(conn)
 	msg, _ := br.ReadString('\n')
+	fmt.Println("Recibi sus direcciones")
 
 	// Me copio su bitacora y agrego el host remoto
 	// Porque el host remoto no se registra en su propia bitacora
