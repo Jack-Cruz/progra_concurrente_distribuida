@@ -42,6 +42,7 @@ func notify(addr, ip string) {
 }
 func tellEverybody(ip string) {
 	for _, addr := range addrs {
+		fmt.Println("Notifying: ", addr)
 		notify(addr, ip)
 	}
 }
